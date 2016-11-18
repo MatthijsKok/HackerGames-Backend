@@ -9,16 +9,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Internet {
-
-    public static void main(String[] args) throws Exception {
-        System.out.println(sendPost("order/status", new JSONObject("{\n" +
-                "  \"CountryCode\": \"string\",\n" +
-                "  \"VendorId\": \"string\",\n" +
-                "  \"OrderId\": \"string\"\n" +
-                "}")));
-    }
-
+public class Internet
+{
     static final String URL_BASE = "https://hackathon.dominos.cloud/";
 
     // HTTP GET request
@@ -34,9 +26,10 @@ public class Internet {
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
         String inputLine;
-        StringBuffer response = new StringBuffer();
+        StringBuilder response = new StringBuilder();
 
-        while ((inputLine = in.readLine()) != null) {
+        while ((inputLine = in.readLine()) != null)
+        {
             response.append(inputLine);
         }
         in.close();
@@ -69,15 +62,17 @@ public class Internet {
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
         String inputLine;
-        StringBuffer response = new StringBuffer();
+        StringBuilder response = new StringBuilder();
 
-        while ((inputLine = in.readLine()) != null) {
+        while ((inputLine = in.readLine()) != null)
+        {
             response.append(inputLine);
         }
         in.close();
 
         //print result
         return response.toString();
+
     }
 
     public static String sendPost(String urlExtension, JSONObject object) throws Exception {
