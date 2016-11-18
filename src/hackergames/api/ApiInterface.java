@@ -16,7 +16,6 @@ public class ApiInterface
 
     static Internet getInternet(String url)
     {
-        //
     }
 
     List<Pizza> getAll()
