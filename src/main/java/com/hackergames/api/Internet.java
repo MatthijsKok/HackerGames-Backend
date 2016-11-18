@@ -5,16 +5,19 @@ import org.json.JSONObject;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 
 public class Internet
 {
     static final String URL_BASE = "https://hackathon.dominos.cloud/";
 
     // HTTP GET request
-    public static String sendGet(String urlBase, String urlExtension) throws Exception {
+    public static String sendGet(String urlBase, String urlExtension) throws IOException
+    {
         URL obj = new URL(urlBase + urlExtension);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -38,12 +41,14 @@ public class Internet
         return response.toString();
     }
 
-    public static String sendGet(String urlExtension) throws Exception {
+    public static String sendGet(String urlExtension) throws Exception
+    {
         return sendGet(URL_BASE, urlExtension);
     }
 
     // HTTP POST request
-    public static String sendPost(String urlBase, String urlExtension, JSONObject object) throws Exception {
+    public static String sendPost(String urlBase, String urlExtension, JSONObject object) throws IOException
+    {
         URL obj = new URL(urlBase + urlExtension);
         HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
@@ -75,7 +80,8 @@ public class Internet
 
     }
 
-    public static String sendPost(String urlExtension, JSONObject object) throws Exception {
+    public static String sendPost(String urlExtension, JSONObject object) throws Exception
+    {
         return sendPost(URL_BASE, urlExtension, object);
     }
 }

@@ -1,7 +1,6 @@
-package hackergames.api;
+package com.hackergames.api;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.ZonedDateTime;
@@ -13,7 +12,8 @@ public class ApiInterface
 {
     public static void main(String[] args)
     {
-        System.out.println(getOrderInfo("36040d87-684e-4aee-9e03-3f4e17010b26", new Order("9ccf5677-205a-4fb6-8262-c57b398936c0", null, null)));
+        System.out.println(getOrderInfo("36040d87-684e-4aee-9e03-3f4e17010b26",
+                new Order("9ccf5677-205a-4fb6-8262-c57b398936c0", null, null)));
     }
 
     private static final String DEFAULT_COUNTRY_CODE = "NL";
@@ -23,13 +23,14 @@ public class ApiInterface
 
     static List<Pizza> getAll()
     {
-        JSONObject response = Internet.sendGet("https://hackathon-menu.dominos.cloud/", "/Rest/nl/menus/30544/en");
         try
         {
+            JSONObject response = new JSONObject(Internet.sendGet("https://hackathon-menu.dominos.cloud/",
+                    "/Rest/nl/menus/30544/en"));
             JSONArray menu = response.getJSONArray("MenuPages");
-
+            return null;
         }
-        catch (JSONException e)
+        catch (Exception e)
         {
             e.printStackTrace();
             return null;
