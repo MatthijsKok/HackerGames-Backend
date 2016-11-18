@@ -1,14 +1,42 @@
 package com.hackergames.api;
 
+import lombok.Getter;
 import org.json.JSONObject;
 
 
 public class Pizza
 {
-    String name, description, image, pickupPrice, deliveryPrice, status, componentStatus, itemType, itemCode, subMenu;
+    @Getter
+    private String name;
+    @Getter
+    private String description;
+    @Getter
+    private String image;
+    @Getter
+    private String pickupPrice;
+    @Getter
+    private String deliveryPrice;
+    @Getter
+    private String status;
+    @Getter
+    private String componentStatus;
+    @Getter
+    private String itemType;
+    @Getter
+    private String itemCode;
+    @Getter
+    private String subMenu;
+    @Getter
     boolean hnhAble;
 
 
+    /**
+     * Creates a new {@code Pizza} from a JSON string.
+     *
+     * @param jso     the JSON string
+     * @param subMenu the type of pizza
+     * @return a new {@code Pizza}
+     */
     public static Pizza fromJson(final JSONObject jso, final String subMenu)
     {
         JSONObject price = jso.getJSONObject("Price");
