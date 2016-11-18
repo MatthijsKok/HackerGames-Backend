@@ -12,11 +12,8 @@ public class ApiInterface
 {
     private static final String DEFAULT_COUNTRY_CODE = "NL";
     private static final String DEFAULT_LANGUAGE = "Dutch";
+    private static final String DEFAULT_ADDRESS = "{}";
 
-
-    static Internet getInternet(String url)
-    {
-    }
 
     List<Pizza> getAll()
     {
@@ -54,6 +51,7 @@ public class ApiInterface
 
     Order getOrderInfo(String vendorId, Order order)
     {
+        Order orderInfo;
         try
         {
             JSONObject parameters = new JSONObject();
@@ -61,16 +59,18 @@ public class ApiInterface
             parameters.put("VendorId", vendorId);
             parameters.put("OrderId", order.id);
 
-            JSONObject response = getInternet("/order/status", parameters);
-            Order responseOrder = new Order(
+            JSONObject response = Internet.sendPost("/order/status", parameters);
+            orderInfo = new Order(
                     response.getString("id"),
                     response.getString("status"),
                     response.getString("info")
             );
         }
-        catch (JSONException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
+
+        return order;
     }
 }
