@@ -5,30 +5,49 @@ import org.json.JSONObject;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class ApiInterface
 {
-    public static void main(String[] args)
+    public static void main(String[] args) throws Exception
     {
-        System.out.println(getOrderInfo("36040d87-684e-4aee-9e03-3f4e17010b26",
-                new Order("9ccf5677-205a-4fb6-8262-c57b398936c0", null, null)));
+        placeOrder("30553", true, "Dekker", "0612345678", "49E95A7-8D42-4D6D-B7FC-9D341951999C", new ArrayList<>());
     }
 
     private static final String DEFAULT_COUNTRY_CODE = "NL";
-    private static final String DEFAULT_LANGUAGE = "Dutch";
-    private static final String DEFAULT_ADDRESS = "{}";
+    private static final String DEFAULT_LANGUAGE = "NL";
+    private static final JSONObject DEFAULT_ADDRESS = new JSONObject("{\"UnitNo\":\"14\",\"StreetNo\":\"1190\",\"StreetName\":\"Bisonspoor\",\"Suburb\":\"Maarssen\",\"PostalCode\":\"3605KX\",\"DeliveryInstruction\":\"Yes\"}");
 
 
+    /**
+     * Returns a list of all pizzas in the universe.
+     * This function probably works.
+     *
+     * @return a list of all pizzas in the universe
+     */
     static List<Pizza> getAll()
     {
         try
         {
-            JSONObject response = new JSONObject(Internet.sendGet("https://hackathon-menu.dominos.cloud/",
-                    "/Rest/nl/menus/30544/en"));
-            JSONArray menu = response.getJSONArray("MenuPages");
-            return null;
+            JSONObject response = new JSONObject(Internet.sendGet("https://hackathon-menu.dominos.cloud/", "/Rest/nl/menus/30544/en"));
+            JSONArray pizzaMenu = response.getJSONArray("MenuPages").getJSONObject(0).getJSONArray("SubMenus");
+
+            List<Pizza> pizzas = new ArrayList<>();
+            if (pizzaMenu != null)
+            {
+                for (int i = 0; i < pizzaMenu.length(); i++)
+                {
+                    String subMenuName = pizzaMenu.getJSONObject(i).getString("Name");
+                    JSONArray pizzaSubMenu = pizzaMenu.getJSONObject(i).getJSONArray("Products");
+                    for (int j = 0; j < pizzaSubMenu.length(); j++)
+                    {
+                        pizzas.add(Pizza.fromJson(pizzaSubMenu.getJSONObject(j), subMenuName));
+                    }
+                }
+            }
+            return pizzas;
         }
         catch (Exception e)
         {
@@ -37,13 +56,19 @@ public class ApiInterface
         }
     }
 
-    static boolean pizzaExists(String pizza)
-    {
-        return false;
-    }
-
-    static void placeOrder(String storeId, Order order, boolean isCashPayment, String name, String phoneNumber,
-                           String vendorId, List<Product> products)
+    /**
+     * UNTESTED.
+     *
+     * @param storeId
+     * @param isCashPayment
+     * @param name
+     * @param phoneNumber
+     * @param vendorId
+     * @param products
+     * @return the order's id
+     */
+    static String placeOrder(String storeId, boolean isCashPayment, String name, String phoneNumber, String vendorId,
+                             List<Product> products)
     {
         JSONObject parameters = new JSONObject();
 
@@ -58,16 +83,29 @@ public class ApiInterface
             parameters.put("PhoneNumber", phoneNumber);
             parameters.put("VendorId", vendorId);
             parameters.put("DeliverTo", DEFAULT_ADDRESS);
-            parameters.put("Products", parameters);
+            parameters.put("Products", new JSONArray(
+                    "[{\"ProductCode\": \"PQGU\",\"Price\": \"795\",\"SizeCode\": \"Pizza.25CM\",\"Additions\": [\"Topping.B\",\"Topping.B\"]}]")
+            );
 
-            String result = Internet.sendPost("/order/place", parameters);
+            System.out.println(parameters);
+            JSONObject result = new JSONObject(Internet.sendPost("order/place", parameters));
+            System.out.println(result);
+            return result.getString("OrderId");
         }
         catch (Exception e)
         {
             e.printStackTrace();
+            return "ERROR";
         }
     }
 
+    /**
+     * UNTESTED.
+     *
+     * @param vendorId
+     * @param order
+     * @return
+     */
     static Order getOrderInfo(String vendorId, Order order)
     {
         Order orderInfo;

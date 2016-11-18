@@ -2,43 +2,35 @@ package com.hackergames.api;
 
 import org.json.JSONObject;
 
-import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Scanner;
 
 
 public class Internet
 {
     static final String URL_BASE = "https://hackathon.dominos.cloud/";
 
+
     // HTTP GET request
     public static String sendGet(String urlBase, String urlExtension) throws IOException
     {
-        URL obj = new URL(urlBase + urlExtension);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        URL url = new URL(urlBase + urlExtension);
 
-        //add request header
-        con.setRequestMethod("GET");
-        con.setRequestProperty("Content-Type", "application/json");
-
-        // Read response
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuilder response = new StringBuilder();
-
-        while ((inputLine = in.readLine()) != null)
+        StringBuilder sb = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8")))
         {
-            response.append(inputLine);
+            for (String line; (line = reader.readLine()) != null; )
+            {
+                sb.append(line);
+            }
         }
-        in.close();
 
-        //print result
-        return response.toString();
+        return sb.toString();
     }
 
     public static String sendGet(String urlExtension) throws Exception
@@ -46,38 +38,24 @@ public class Internet
         return sendGet(URL_BASE, urlExtension);
     }
 
+
     // HTTP POST request
     public static String sendPost(String urlBase, String urlExtension, JSONObject object) throws IOException
     {
-        URL obj = new URL(urlBase + urlExtension);
-        HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+        URL url = new URL(urlBase + urlExtension);
+        HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
+        httpCon.setDoOutput(true);
+        httpCon.setRequestMethod("POST");
+        OutputStreamWriter out = new OutputStreamWriter(httpCon.getOutputStream());
+        out.write(object.toString());
+        System.out.println(httpCon.getResponseCode());
+        System.out.println(httpCon.getResponseMessage());
+        out.close();
 
-        //add request header
-        con.setRequestMethod("POST");
-        con.setRequestProperty("Content-Type", "application/json");
-
-        // Send post request
-        con.setDoOutput(true);
-        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-        wr.writeBytes(object.toString());
-        wr.flush();
-        wr.close();
-
-        // Read response
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuilder response = new StringBuilder();
-
-        while ((inputLine = in.readLine()) != null)
-        {
-            response.append(inputLine);
-        }
-        in.close();
-
-        //print result
-        return response.toString();
-
+        Scanner s = new Scanner(httpCon.getInputStream()).useDelimiter("\\A");
+        String x = s.next();
+        s.close();
+        return x;
     }
 
     public static String sendPost(String urlExtension, JSONObject object) throws Exception
