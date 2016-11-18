@@ -1,6 +1,5 @@
 package hackergames.api;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -13,11 +12,7 @@ import java.net.URL;
 public class Internet {
 
     public static void main(String[] args) throws Exception {
-        JSONObject parameters = new JSONObject();
-        parameters.put("CountryCode", "NL");
-        parameters.put("VendorId", 123);
-        parameters.put("OrderId", 123123);
-        sendPost("/order/status/", parameters);
+        System.out.println(sendGet(""));
     }
 
     static final String URL_BASE = "https://hackathon.dominos.cloud/";
@@ -50,7 +45,7 @@ public class Internet {
     }
 
     // HTTP POST request
-    public static void sendPost(String urlBase, String urlExtension, JSONObject object) throws Exception {
+    public static String sendPost(String urlBase, String urlExtension, JSONObject object) throws Exception {
         URL obj = new URL(urlBase + urlExtension);
         HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
@@ -64,9 +59,11 @@ public class Internet {
         wr.writeBytes(object.toString());
         wr.flush();
         wr.close();
+
+        return con.getResponseMessage();
     }
 
-    public static void sendPost(String urlExtension, JSONObject object) throws Exception {
-        sendPost(URL_BASE, urlExtension, object);
+    public static String sendPost(String urlExtension, JSONObject object) throws Exception {
+        return sendPost(URL_BASE, urlExtension, object);
     }
 }
