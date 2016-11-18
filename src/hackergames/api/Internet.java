@@ -12,7 +12,11 @@ import java.net.URL;
 public class Internet {
 
     public static void main(String[] args) throws Exception {
-        System.out.println(sendGet(""));
+        System.out.println(sendPost("order/status", new JSONObject("{\n" +
+                "  \"CountryCode\": \"string\",\n" +
+                "  \"VendorId\": \"string\",\n" +
+                "  \"OrderId\": \"string\"\n" +
+                "}")));
     }
 
     static final String URL_BASE = "https://hackathon.dominos.cloud/";
@@ -24,6 +28,7 @@ public class Internet {
 
         //add request header
         con.setRequestMethod("GET");
+        con.setRequestProperty("Content-Type", "application/json");
 
         // Read response
         BufferedReader in = new BufferedReader(
@@ -51,7 +56,7 @@ public class Internet {
 
         //add request header
         con.setRequestMethod("POST");
-        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+        con.setRequestProperty("Content-Type", "application/json");
 
         // Send post request
         con.setDoOutput(true);
@@ -60,7 +65,19 @@ public class Internet {
         wr.flush();
         wr.close();
 
-        return con.getResponseMessage();
+        // Read response
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        //print result
+        return response.toString();
     }
 
     public static String sendPost(String urlExtension, JSONObject object) throws Exception {
