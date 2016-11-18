@@ -1,4 +1,4 @@
-package hackergames.api;
+package com.hackergames.api;
 
 import org.json.JSONException;
 import org.json.JSONObject;
