@@ -1,5 +1,6 @@
 package hackergames.api;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -11,10 +12,18 @@ import java.net.URL;
 
 public class Internet {
 
-    static final String urlBase = "https://hackathon.dominos.cloud";
+    public static void main(String[] args) throws Exception {
+        JSONObject parameters = new JSONObject();
+        parameters.put("CountryCode", "NL");
+        parameters.put("VendorId", 123);
+        parameters.put("OrderId", 123123);
+        sendPost("/order/status/", parameters);
+    }
+
+    static final String URL_BASE = "https://hackathon.dominos.cloud/";
 
     // HTTP GET request
-    public static JSONObject sendGet(String urlExtension) throws Exception {
+    public static String sendGet(String urlBase, String urlExtension) throws Exception {
         URL obj = new URL(urlBase + urlExtension);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -33,11 +42,15 @@ public class Internet {
         in.close();
 
         //print result
-        return new JSONObject(response.toString());
+        return response.toString();
+    }
+
+    public static String sendGet(String urlExtension) throws Exception {
+        return sendGet(URL_BASE, urlExtension);
     }
 
     // HTTP POST request
-    public static JSONObject sendPost(String urlExtension, JSONObject object) throws Exception {
+    public static void sendPost(String urlBase, String urlExtension, JSONObject object) throws Exception {
         URL obj = new URL(urlBase + urlExtension);
         HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
@@ -51,19 +64,9 @@ public class Internet {
         wr.writeBytes(object.toString());
         wr.flush();
         wr.close();
+    }
 
-        // Read response
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
-
-        //print result
-        return new JSONObject(response.toString());
+    public static void sendPost(String urlExtension, JSONObject object) throws Exception {
+        sendPost(URL_BASE, urlExtension, object);
     }
 }
