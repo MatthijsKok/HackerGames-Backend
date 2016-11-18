@@ -5,16 +5,19 @@ import org.json.JSONObject;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Internet {
+public class Internet
+{
 
     static final String urlBase = "https://hackathon.dominos.cloud";
 
     // HTTP GET request
-    public static JSONObject sendGet(String urlExtension) throws Exception {
+    public static String sendGet(String urlExtension) throws IOException
+    {
         URL obj = new URL(urlBase + urlExtension);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -25,19 +28,21 @@ public class Internet {
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
         String inputLine;
-        StringBuffer response = new StringBuffer();
+        StringBuilder response = new StringBuilder();
 
-        while ((inputLine = in.readLine()) != null) {
+        while ((inputLine = in.readLine()) != null)
+        {
             response.append(inputLine);
         }
         in.close();
 
         //print result
-        return new JSONObject(response.toString());
+        return response.toString();
     }
 
     // HTTP POST request
-    public static JSONObject sendPost(String urlExtension, JSONObject object) throws Exception {
+    public static String sendPost(String urlExtension, JSONObject object) throws IOException
+    {
         URL obj = new URL(urlBase + urlExtension);
         HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
@@ -56,14 +61,15 @@ public class Internet {
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
         String inputLine;
-        StringBuffer response = new StringBuffer();
+        StringBuilder response = new StringBuilder();
 
-        while ((inputLine = in.readLine()) != null) {
+        while ((inputLine = in.readLine()) != null)
+        {
             response.append(inputLine);
         }
         in.close();
 
         //print result
-        return new JSONObject(response.toString());
+        return response.toString();
     }
 }
