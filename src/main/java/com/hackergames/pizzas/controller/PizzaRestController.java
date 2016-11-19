@@ -1,5 +1,6 @@
 package com.hackergames.pizzas.controller;
 
+import com.hackergames.pizzas.model.PizzaOptions;
 import com.hackergames.pizzas.services.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,7 @@ public class PizzaRestController
 
 
     @GetMapping("/all")
-    public List<Object> getAllPizzas()
+    public List<PizzaOptions> getAllPizzas()
     {
         return PizzaService.getAllPizzas();
     }
