@@ -28,4 +28,6 @@ public class Room {
         this.pizzas = pizzas;
     }
 
+    public Room() { }
+
 }

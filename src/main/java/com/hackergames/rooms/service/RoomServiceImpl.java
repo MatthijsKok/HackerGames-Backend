@@ -26,7 +26,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room getRoom(Long roomID) {
-        return roomRepository.getOne(roomID);
+        return roomRepository.findOne(roomID);
     }
 
     @Override
@@ -36,12 +36,12 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Pizza addPizza(Long roomID, Pizza pizza) {
-        roomRepository.getOne(roomID).getPizzas().add(pizza);
+        roomRepository.findOne(roomID).getPizzas().add(pizza);
         return pizza;
     }
 
     @Override
     public void deletePizza(Long roomID, Pizza pizza) {
-        roomRepository.getOne(roomID).getPizzas().remove(pizza);
+        roomRepository.findOne(roomID).getPizzas().remove(pizza);
     }
 }
