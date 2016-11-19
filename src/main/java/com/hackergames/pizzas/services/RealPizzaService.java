@@ -5,7 +5,6 @@ import com.hackergames.pizzas.model.Pizza;
 import com.hackergames.pizzas.model.PizzaOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -22,12 +21,6 @@ public final class RealPizzaService implements PizzaService
 {
     private static final String DEFAULT_COUNTRY_CODE = "NL";
     private static final String DEFAULT_VENDOR_ID = "36040d87-684e-4aee-9e03-3f4e17010b26";
-
-
-    @Autowired
-    public RealPizzaService()
-    {
-    }
 
 
     @Override

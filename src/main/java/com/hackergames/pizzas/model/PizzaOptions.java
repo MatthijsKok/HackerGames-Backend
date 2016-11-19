@@ -39,8 +39,8 @@ public final class PizzaOptions
                 price.getString("Delivered"),
                 json.getString("Status"),
                 json.getString("ComponentStatus"),
-                price.getString("ItemType"),
-                price.getString("ItemCode"),
+                linkedItem.getString("ItemType"),
+                linkedItem.getString("ItemCode"),
                 json.getBoolean("HalfnHalfEnabled")
         );
     }

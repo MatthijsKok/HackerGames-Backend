@@ -6,7 +6,6 @@ import com.hackergames.pizzas.model.Pizza;
 import com.hackergames.pizzas.model.PizzaOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -21,12 +20,6 @@ import java.util.List;
 public final class FakePizzaService implements PizzaService
 {
     private static List<Order> orders = new ArrayList<>();
-
-
-    @Autowired
-    public FakePizzaService()
-    {
-    }
 
 
     @Override
@@ -45,7 +38,7 @@ public final class FakePizzaService implements PizzaService
 
                 for (int j = 0; j < jProducts.length(); j++)
                 {
-                    pizzas.add(PizzaOptions.fromJson(jProducts.getJSONObject(i)));
+                    pizzas.add(PizzaOptions.fromJson(jProducts.getJSONObject(j)));
                 }
             }
         }
