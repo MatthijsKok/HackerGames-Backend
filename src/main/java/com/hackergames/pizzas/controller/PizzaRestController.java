@@ -1,7 +1,7 @@
 package com.hackergames.pizzas.controller;
 
 import com.hackergames.pizzas.model.PizzaOptions;
-import com.hackergames.pizzas.services.PizzaService;
+import com.hackergames.pizzas.services.FakePizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,11 +17,11 @@ import java.util.List;
 @RequestMapping("/pizza")
 public class PizzaRestController
 {
-    private final PizzaService pizzaService;
+    private final FakePizzaService pizzaService;
 
 
     @Autowired
-    public PizzaRestController(final PizzaService pizzaService)
+    public PizzaRestController(final FakePizzaService pizzaService)
     {
         this.pizzaService = pizzaService;
     }
@@ -30,6 +30,6 @@ public class PizzaRestController
     @GetMapping("/all")
     public List<PizzaOptions> getAllPizzas()
     {
-        return PizzaService.getAllPizzas();
+        return pizzaService.getAllPizzas();
     }
 }
