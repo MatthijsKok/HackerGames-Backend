@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 @RestController
-@RequestMapping("/room")
+@CrossOrigin
 public class RoomRestController {
 
     private RoomServiceImpl roomService;
@@ -20,22 +20,28 @@ public class RoomRestController {
         this.roomService = roomService;
     }
 
-    @GetMapping("/new")
+    @PostMapping("/rooms")
     public Room createRoom() {
         return roomService.createNewRoom();
     }
 
-    @DeleteMapping("/{roomID}")
+    @DeleteMapping("/rooms")
+    public void deleteAllRooms() {
+        roomService.deleteAllRooms();
+    }
+
+
+    @DeleteMapping("/room/{roomID}")
     public void deleteRoom(@PathVariable Long roomID) {
         roomService.deleteRoom(roomID);
     }
 
-    @GetMapping("/{roomID}")
+    @GetMapping("/room/{roomID}")
     public Room getRoom(@PathVariable Long roomID) {
         return roomService.getRoom(roomID);
     }
 
-    @PostMapping("/{roomID}")
+    @PostMapping("/room/{roomID}/pizza")
     public Pizza addPizza(@PathVariable Long roomID, @RequestParam String name, @RequestParam String size,
                           @RequestParam ArrayList<String> additions) {
         Pizza pizza = Pizza.fromName(name, size, additions);
@@ -43,15 +49,10 @@ public class RoomRestController {
         return pizza;
     }
 
-    @DeleteMapping("/{roomID}")
+    @PostMapping("/room/{roomID}/pizza")
     public void deletePizza(@PathVariable Long roomID, @RequestParam String name, @RequestParam String size,
                             @RequestParam ArrayList<String> additions) {
         Pizza pizza = Pizza.fromName(name, size, additions);
         roomService.deletePizza(roomID, pizza);
-    }
-
-    @GetMapping("/{roomID/all}")
-    public List<Pizza> getAllPizzas(@PathVariable Long roomID) {
-        return roomService.getAllPizzas(roomID);
     }
 }

@@ -13,6 +13,8 @@ public interface RoomService {
 
     void deleteRoom(Long roomID);
 
+    void deleteAllRooms();
+
     Pizza addPizza(Long roomID, Pizza pizza);
 
     void deletePizza(Long roomID, Pizza pizza);
