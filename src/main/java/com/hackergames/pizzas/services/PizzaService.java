@@ -8,8 +8,7 @@ import java.util.List;
 /**
  * Interface for the pizza service.
  */
-public interface PizzaService
-{
+public interface PizzaService {
     /**
      * Returns a list of all pizzas.
      *

@@ -43,8 +43,20 @@ public class Pizza implements Serializable {
         return null;
     }
 
-
     public Pizza() {
+    }
+
+
+    /**
+     * Returns more details on this {@code Pizza}.
+     */
+    public PizzaOptions getDetails() {
+        for (PizzaOptions po : pos) {
+            if (po.getItemCode().equals(this.productCode)) {
+                return po;
+            }
+        }
+        return null;
     }
 
     @Override
