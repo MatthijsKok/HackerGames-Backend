@@ -21,12 +21,12 @@ public class RoomRestController {
         return roomService.createNewRoom();
     }
 
-    @DeleteMapping("/{room}")
+    @DeleteMapping("/{roomID}")
     public void deleteRoom(@PathVariable Long roomID) {
         roomService.deleteRoom(roomID);
     }
 
-    @GetMapping("/{room}")
+    @GetMapping("/{roomID}")
     public Room getRoom(@PathVariable Long roomID) {
         return roomService.getRoom(roomID);
     }
