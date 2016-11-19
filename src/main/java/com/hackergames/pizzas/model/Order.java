@@ -1,15 +1,13 @@
 package com.hackergames.pizzas.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
-public final class Order {
 
+@Entity
+public final class Order
+{
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private Status status;
@@ -18,7 +16,8 @@ public final class Order {
     private long updateTime;
 
 
-    public Order(final int id, final Status status, final String info, final long remainingTime, final long updateTime) {
+    public Order(final int id, final Status status, final String info, final long remainingTime, final long updateTime)
+    {
         this.id = id;
         this.status = status;
         this.info = info;
@@ -27,50 +26,64 @@ public final class Order {
     }
 
 
-    public void update() {
+    public void update()
+    {
         updateEta();
         updateStatus();
     }
 
-    public void updateEta() {
+    public void updateEta()
+    {
         final long currentTime = System.currentTimeMillis();
         remainingTime -= (updateTime - currentTime);
         updateTime = currentTime;
     }
 
-    public String updateStatus() {
-        if (remainingTime < 15 * 60000) {
+    public String updateStatus()
+    {
+        if (remainingTime < 15 * 60000)
+        {
             return "on its way";
-        } else if (remainingTime < 25 * 60000) {
+        }
+        else if (remainingTime < 25 * 60000)
+        {
             return "bakin'";
-        } else {
+        }
+        else
+        {
             return "plz weet";
         }
     }
 
 
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
-    public Status getStatus() {
+    public Status getStatus()
+    {
         return status;
     }
 
-    public String getInfo() {
+    public String getInfo()
+    {
         return info;
     }
 
-    public long getRemainingTime() {
+    public long getRemainingTime()
+    {
         return remainingTime;
     }
 
-    public long getUpdateTime() {
+    public long getUpdateTime()
+    {
         return updateTime;
     }
 
 
-    public enum Status {
+    public enum Status
+    {
         Queued, Preparing, OnItsWay
     }
 }
