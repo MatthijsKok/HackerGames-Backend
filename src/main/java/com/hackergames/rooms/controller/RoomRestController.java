@@ -3,7 +3,6 @@ package com.hackergames.rooms.controller;
 import com.hackergames.pizzas.model.Pizza;
 import com.hackergames.rooms.model.Room;
 import com.hackergames.rooms.service.RoomServiceImpl;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,18 +35,18 @@ public class RoomRestController {
         return roomService.getRoom(roomID);
     }
 
-    @GetMapping("/{roomID}/add_pizza/{name}&{size}&{additions}")
-    public String addPizza(@PathVariable Long roomID, @PathVariable String name, @PathVariable String size,
-                          @PathVariable ArrayList<String> additions) {
+    @PostMapping("/{roomID}")
+    public Pizza addPizza(@PathVariable Long roomID, @RequestParam String name, @RequestParam String size,
+                          @RequestParam ArrayList<String> additions) {
         Pizza pizza = Pizza.fromName(name, size, additions);
         roomService.addPizza(roomID, pizza);
-        return JSONObject.wrap(pizza).toString();
+        return pizza;
     }
 
-    @GetMapping("/{roomID}/delete_pizza/{pizza}&{size}&{additions}")
-    public void deletePizza(@PathVariable Long roomID, @PathVariable String pizzaName, @PathVariable String pizzaSize,
-                            @PathVariable ArrayList<String> pizzaAdditions) {
-        Pizza pizza = Pizza.fromName(pizzaName, pizzaSize, pizzaAdditions);
+    @DeleteMapping("/{roomID}")
+    public void deletePizza(@PathVariable Long roomID, @RequestParam String name, @RequestParam String size,
+                            @RequestParam ArrayList<String> additions) {
+        Pizza pizza = Pizza.fromName(name, size, additions);
         roomService.deletePizza(roomID, pizza);
     }
 

@@ -1,6 +1,7 @@
 package com.hackergames.pizzas.model;
 
 import com.hackergames.pizzas.services.FakePizzaService;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 
 @Entity
+@AllArgsConstructor
 public class Pizza implements Serializable {
     private static final long serialVersionUID = 4792120082595242177L;
 
@@ -43,12 +45,5 @@ public class Pizza implements Serializable {
 
 
     public Pizza() {
-    }
-
-    public Pizza(String productCode, String price, String sizeCode, ArrayList<String> additions) {
-        this.productCode = productCode;
-        this.price = price;
-        this.sizeCode = sizeCode;
-        this.additions = additions;
     }
 }
