@@ -44,7 +44,7 @@ public class RoomServiceImpl implements RoomService {
     public Pizza addPizza(Long roomID, Pizza pizza) {
         Room room = roomRepository.findOne(roomID);
         room.getPizzas().add(pizza);
-        roomRepository.saveAndFlush(room);
+        roomRepository.save(room);
         return pizza;
     }
 
@@ -52,7 +52,7 @@ public class RoomServiceImpl implements RoomService {
     public void deletePizza(Long roomID, Pizza pizza) {
         Room room = roomRepository.findOne(roomID);
         room.getPizzas().remove(pizza);
-        roomRepository.saveAndFlush(room);
+        roomRepository.save(room);
     }
 
     @Override
