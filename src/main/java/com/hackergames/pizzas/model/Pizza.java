@@ -36,7 +36,7 @@ public class Pizza implements Serializable {
 
     public static Pizza fromName(String name, String size, ArrayList<String> additions) {
         for (PizzaOptions po : pos) {
-            if (po.getName().equals(name)) {
+            if (po.getName().equalsIgnoreCase(name)) {
                 return new Pizza(po.getItemCode(), po.getDeliveryPrice(), size, additions);
             }
         }
