@@ -42,13 +42,17 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Pizza addPizza(Long roomID, Pizza pizza) {
-        roomRepository.findOne(roomID).getPizzas().add(pizza);
+        Room room = roomRepository.findOne(roomID);
+        room.getPizzas().add(pizza);
+        roomRepository.saveAndFlush(room);
         return pizza;
     }
 
     @Override
     public void deletePizza(Long roomID, Pizza pizza) {
-        roomRepository.findOne(roomID).getPizzas().remove(pizza);
+        Room room = roomRepository.findOne(roomID);
+        room.getPizzas().remove(pizza);
+        roomRepository.saveAndFlush(room);
     }
 
     @Override
