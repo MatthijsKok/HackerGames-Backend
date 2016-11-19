@@ -1,22 +1,32 @@
 package com.hackergames.pizzas.model;
 
+import lombok.Getter;
 import org.json.JSONObject;
 
 
 /**
  * A pizza "template", containing the possible options for the pizza.
  */
-public final class PizzaOptions
-{
+public final class PizzaOptions {
+    @Getter
     private final String name;
+    @Getter
     private final String description;
+    @Getter
     private final String image;
+    @Getter
     private final String pickupPrice;
+    @Getter
     private final String deliveryPrice;
+    @Getter
     private final String status;
+    @Getter
     private final String componentStatus;
+    @Getter
     private final String itemType;
+    @Getter
     private final String itemCode;
+    @Getter
     private final boolean hnhEnabled;
 
 
@@ -26,8 +36,7 @@ public final class PizzaOptions
      * @param json the json
      * @return a new {@code PizzaOptions}
      */
-    public static PizzaOptions fromJson(final JSONObject json)
-    {
+    public static PizzaOptions fromJson(final JSONObject json) {
         final JSONObject price = json.getJSONObject("Price");
         final JSONObject linkedItem = json.getJSONObject("LinkedItem");
 
@@ -61,8 +70,7 @@ public final class PizzaOptions
      */
     public PizzaOptions(final String name, final String description, final String image, final String pickupPrice,
                         final String deliveryPrice, final String status, final String componentStatus,
-                        final String itemType, String itemCode, boolean hnhEnabled)
-    {
+                        final String itemType, String itemCode, boolean hnhEnabled) {
 
         this.name = name;
         this.description = description;
@@ -74,56 +82,5 @@ public final class PizzaOptions
         this.itemType = itemType;
         this.itemCode = itemCode;
         this.hnhEnabled = hnhEnabled;
-    }
-
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public String getDescription()
-    {
-        return description;
-    }
-
-    public String getImage()
-    {
-        return image;
-    }
-
-    public String getPickupPrice()
-    {
-        return pickupPrice;
-    }
-
-    public String getDeliveryPrice()
-    {
-        return deliveryPrice;
-    }
-
-    public String getStatus()
-    {
-        return status;
-    }
-
-    public String getComponentStatus()
-    {
-        return componentStatus;
-    }
-
-    public String getItemType()
-    {
-        return itemType;
-    }
-
-    public String getItemCode()
-    {
-        return itemCode;
-    }
-
-    public boolean isHnhEnabled()
-    {
-        return hnhEnabled;
     }
 }
