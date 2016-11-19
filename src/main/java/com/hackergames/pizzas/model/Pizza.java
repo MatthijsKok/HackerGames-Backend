@@ -46,4 +46,17 @@ public class Pizza implements Serializable {
 
     public Pizza() {
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Pizza pizza = (Pizza) o;
+
+        if (productCode != null ? !productCode.equals(pizza.productCode) : pizza.productCode != null) return false;
+        if (price != null ? !price.equals(pizza.price) : pizza.price != null) return false;
+        if (sizeCode != null ? !sizeCode.equals(pizza.sizeCode) : pizza.sizeCode != null) return false;
+        return additions != null ? additions.equals(pizza.additions) : pizza.additions == null;
+    }
 }
