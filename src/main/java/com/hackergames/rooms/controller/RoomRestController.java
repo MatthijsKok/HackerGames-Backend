@@ -6,6 +6,9 @@ import com.hackergames.rooms.service.RoomServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
+
 @RestController
 @CrossOrigin
 public class RoomRestController {
@@ -38,15 +41,18 @@ public class RoomRestController {
         return roomService.getRoom(roomID);
     }
 
-
     @PostMapping("/room/{roomID}/pizza")
-    public Pizza addPizza(@PathVariable Long roomID, @RequestBody Pizza pizza) {
+    public Pizza addPizza(@PathVariable Long roomID, @RequestParam String name, @RequestParam String size,
+                          @RequestParam ArrayList<String> additions) {
+        Pizza pizza = Pizza.fromName(name, size, additions);
         roomService.addPizza(roomID, pizza);
         return pizza;
     }
 
-    @DeleteMapping("/room/{roomID}/pizza")
-    public void deletePizza(@PathVariable Long roomID, @RequestBody Pizza pizza) {
+    @PostMapping("/room/{roomID}/pizza")
+    public void deletePizza(@PathVariable Long roomID, @RequestParam String name, @RequestParam String size,
+                            @RequestParam ArrayList<String> additions) {
+        Pizza pizza = Pizza.fromName(name, size, additions);
         roomService.deletePizza(roomID, pizza);
     }
 }
