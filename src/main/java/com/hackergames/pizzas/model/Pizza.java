@@ -1,85 +1,75 @@
 package com.hackergames.pizzas.model;
 
-import org.json.JSONArray;
+import lombok.Getter;
 import org.json.JSONObject;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.util.ArrayList;
-import java.util.List;
 
-
-/**
- * A pizza as configured by a user. For example, its size and price have been determined.
- * This class should be used when posting an order to the API.
- */
-@Entity
-public final class Pizza
+public class Pizza
 {
-    @Id
-    private final String productCode;
-    private final String price;
-    private final String sizeCode;
-    private final List<String> additions;
+    @Getter
+    private String name;
+    @Getter
+    private String description;
+    @Getter
+    private String image;
+    @Getter
+    private String pickupPrice;
+    @Getter
+    private String deliveryPrice;
+    @Getter
+    private String status;
+    @Getter
+    private String componentStatus;
+    @Getter
+    private String itemType;
+    @Getter
+    private String itemCode;
+    @Getter
+    private String subMenu;
+    @Getter
+    boolean hnhAble;
 
 
     /**
-     * Creates a new {@code PizzaOptions} from a {@code JSONObject}.
+     * Creates a new {@code Pizza} from a JSON string.
      *
-     * @param json the json
-     * @return a new {@code PizzaOptions}
+     * @param jso     the JSON string
+     * @param subMenu the type of pizza
+     * @return a new {@code Pizza}
      */
-    public static Pizza fromJson(final JSONObject json)
+    public static Pizza fromJson(final JSONObject jso, final String subMenu)
     {
-        final JSONArray jAdditions = json.getJSONArray("Additions");
-        final List<String> additions = new ArrayList<>();
-        for (int i = 0; i < jAdditions.length(); i++)
-        {
-            additions.add(jAdditions.getString(i));
-        }
+        JSONObject price = jso.getJSONObject("Price");
+        JSONObject linkedItem = jso.getJSONObject("LinkedItem");
 
         return new Pizza(
-                json.getString("ProductCode"),
-                json.getString("Price"),
-                json.getString("SizeCode"),
-                additions
+                jso.getString("Name"),
+                jso.getString("Description"),
+                jso.getString("Image"),
+                price.getString("Pickup"),
+                price.getString("Delivered"),
+                jso.getString("Status"),
+                jso.getString("ComponentStatus"),
+                linkedItem.getString("ItemType"),
+                linkedItem.getString("ItemCode"),
+                subMenu,
+                jso.getBoolean("HalfnHalfEnabled")
         );
     }
 
-    /**
-     * Constructs a new {@code Pizza}.
-     *
-     * @param productCode the unique product code
-     * @param price       the price of the pizza
-     * @param sizeCode    the size code of the pizza
-     * @param additions   additional details of the pizza
-     */
-    public Pizza(final String productCode, final String price, final String sizeCode, final List<String> additions)
+    public Pizza(String name, String description, String image, String pickupPrice, String deliveryPrice, String status,
+                 String componentStatus, String itemType, String itemCode, String subMenu, boolean hnhAble)
     {
-        this.productCode = productCode;
-        this.price = price;
-        this.sizeCode = sizeCode;
-        this.additions = additions;
-    }
-
-
-    public String getProductCode()
-    {
-        return productCode;
-    }
-
-    public String getPrice()
-    {
-        return price;
-    }
-
-    public String getSizeCode()
-    {
-        return sizeCode;
-    }
-
-    public List<String> getAdditions()
-    {
-        return additions;
+        this.name = name;
+        this.description = description;
+        this.image = image;
+        this.pickupPrice = pickupPrice;
+        this.deliveryPrice = deliveryPrice;
+        this.status = status;
+        this.componentStatus = componentStatus;
+        this.itemType = itemType;
+        this.itemCode = itemCode;
+        this.subMenu = subMenu;
+        this.hnhAble = hnhAble;
     }
 }

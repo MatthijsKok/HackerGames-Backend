@@ -1,8 +1,5 @@
 package com.hackergames.pizzas.services;
 
-import com.hackergames.pizzas.model.Order;
-import com.hackergames.pizzas.model.OrderInfo;
-import com.hackergames.pizzas.model.Pizza;
 import com.hackergames.pizzas.model.PizzaOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,13 +15,6 @@ import java.util.List;
  */
 @Service
 public final class FakePizzaService implements PizzaService {
-    private static List<Order> orders = new ArrayList<>();
-
-
-    public FakePizzaService() {
-    }
-
-
     @Override
     public List<PizzaOptions> getAllPizzas() {
         final List<PizzaOptions> pizzas = new ArrayList<>();
@@ -45,19 +35,5 @@ public final class FakePizzaService implements PizzaService {
         }
 
         return pizzas;
-    }
-
-    @Override
-    public String placeOrder(final List<Pizza> pizzas) {
-        final Order order = new Order(orders.size(), Order.Status.Queued, "", 30 * 60000, System.currentTimeMillis());
-        orders.add(order);
-        return Integer.toString(order.getId());
-    }
-
-    @Override
-    public OrderInfo getOrderInfo(final String orderId) {
-        final Order order = orders.get(Integer.parseInt(orderId));
-        order.update();
-        return new OrderInfo(order.getStatus().toString(), Integer.toString(order.getId()), order.getInfo());
     }
 }
