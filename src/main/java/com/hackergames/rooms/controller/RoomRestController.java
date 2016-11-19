@@ -1,5 +1,6 @@
 package com.hackergames.rooms.controller;
 
+import com.hackergames.rooms.model.Room;
 import com.hackergames.rooms.service.RoomServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +16,18 @@ public class RoomRestController {
         this.roomService = roomService;
     }
 
-    @PostMapping
+    @GetMapping("/new")
     public Long createRoom() {
         return roomService.createNewRoom();
     }
 
-    @DeleteMapping("/{room}")
+    @DeleteMapping("/{roomID}")
     public void deleteRoom(@PathVariable Long roomID) {
         roomService.deleteRoom(roomID);
+    }
+
+    @GetMapping("/{roomID}")
+    public Room getRoom(@PathVariable Long roomID) {
+        return roomService.getRoom(roomID);
     }
 }
