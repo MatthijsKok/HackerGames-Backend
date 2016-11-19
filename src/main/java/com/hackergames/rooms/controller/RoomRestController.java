@@ -49,7 +49,7 @@ public class RoomRestController {
         return pizza;
     }
 
-    @PostMapping("/room/{roomID}/pizza")
+    @DeleteMapping("/room/{roomID}/pizza")
     public void deletePizza(@PathVariable Long roomID, @RequestParam String name, @RequestParam String size,
                             @RequestParam ArrayList<String> additions) {
         Pizza pizza = Pizza.fromName(name, size, additions);
