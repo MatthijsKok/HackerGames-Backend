@@ -17,10 +17,10 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Long createNewRoom() {
+    public Room createNewRoom() {
         Room room = new Room(new ArrayList<>());
         roomRepository.save(room);
-        return room.getId();
+        return room;
     }
 
     @Override

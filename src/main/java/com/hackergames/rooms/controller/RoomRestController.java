@@ -17,7 +17,7 @@ public class RoomRestController {
     }
 
     @GetMapping("/new")
-    public Long createRoom() {
+    public Room createRoom() {
         return roomService.createNewRoom();
     }
 

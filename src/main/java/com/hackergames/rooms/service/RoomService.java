@@ -4,7 +4,7 @@ import com.hackergames.rooms.model.Room;
 
 public interface RoomService {
 
-    Long createNewRoom();
+    Room createNewRoom();
 
     Room getRoom(Long roomID);
 
