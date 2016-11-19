@@ -43,6 +43,9 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Pizza addPizza(Long roomID, Pizza pizza) {
         Room room = roomRepository.findOne(roomID);
+        if (room == null) {
+            return null;
+        }
         room.getPizzas().add(pizza);
         roomRepository.save(room);
         return pizza;
