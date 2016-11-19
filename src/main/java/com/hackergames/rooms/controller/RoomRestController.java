@@ -45,9 +45,21 @@ public class RoomRestController {
         return roomService.getRoom(roomID);
     }
 
-    @PostMapping("/room/{roomID}/pizza")
-    public ResponseEntity<?> addPizza(@PathVariable Long roomID, @RequestParam String name,
-                                      @RequestParam String size, @RequestParam(required = false, defaultValue = "") ArrayList<String> additions) {
+    @PutMapping("/room/{roomID}/pizza/{name:.+}&{size:.+}")
+    public ResponseEntity<?> addPizza(@PathVariable Long roomID, @PathVariable String name,
+                                      @PathVariable String size) {
+        Pizza pizza = Pizza.fromName(name, size, new ArrayList<>());
+        if (pizza == null) {
+            return ResponseEntityBuilder.createResponseEntity(HttpStatus.BAD_REQUEST, "Invalid pizza name");
+        }
+
+        roomService.addPizza(roomID, pizza);
+        return ResponseEntityBuilder.createResponseEntity(HttpStatus.OK, JSONObject.wrap(pizza).toString());
+    }
+
+    @PutMapping("/room/{roomID}/pizza/{name:.+}&{size:.+}&{additions:.+}")
+    public ResponseEntity<?> addPizza(@PathVariable Long roomID, @PathVariable String name,
+                                      @PathVariable String size, @PathVariable ArrayList<String> additions) {
         Pizza pizza = Pizza.fromName(name, size, additions);
         if (pizza == null) {
             return ResponseEntityBuilder.createResponseEntity(HttpStatus.BAD_REQUEST, "Invalid pizza name");
@@ -57,10 +69,27 @@ public class RoomRestController {
         return ResponseEntityBuilder.createResponseEntity(HttpStatus.OK, JSONObject.wrap(pizza).toString());
     }
 
-    @DeleteMapping("/room/{roomID}/pizza")
-    public void deletePizza(@PathVariable Long roomID, @RequestParam String name, @RequestParam String size,
-                            @RequestParam ArrayList<String> additions) {
-        Pizza pizza = Pizza.fromName(name, size, additions);
+    @DeleteMapping("/room/{roomID}/pizza/{name:.+}&{size:.+}")
+    public ResponseEntity<?> deletePizza(@PathVariable Long roomID, @PathVariable String name,
+                                         @PathVariable String size) {
+        Pizza pizza = Pizza.fromName(name, size, new ArrayList<>());
+        if (pizza == null) {
+            return ResponseEntityBuilder.createResponseEntity(HttpStatus.BAD_REQUEST, "Invalid pizza name");
+        }
+
         roomService.deletePizza(roomID, pizza);
+        return ResponseEntityBuilder.createResponseEntity(HttpStatus.OK, "Pizza deleted successfully");
+    }
+
+    @DeleteMapping("/room/{roomID}/pizza/{name:.+}&{size:.+}&{additions:.+}")
+    public ResponseEntity<?> deletePizza(@PathVariable Long roomID, @PathVariable String name,
+                                         @PathVariable String size, @PathVariable ArrayList<String> additions) {
+        Pizza pizza = Pizza.fromName(name, size, additions);
+        if (pizza == null) {
+            return ResponseEntityBuilder.createResponseEntity(HttpStatus.BAD_REQUEST, "Invalid pizza name");
+        }
+
+        roomService.deletePizza(roomID, pizza);
+        return ResponseEntityBuilder.createResponseEntity(HttpStatus.OK, "Pizza deleted successfully");
     }
 }
