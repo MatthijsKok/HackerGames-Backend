@@ -15,21 +15,18 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/pizza")
-public class PizzaRestController
-{
+public class PizzaRestController {
     private final FakePizzaService pizzaService;
 
 
     @Autowired
-    public PizzaRestController(FakePizzaService pizzaService)
-    {
+    public PizzaRestController(FakePizzaService pizzaService) {
         this.pizzaService = pizzaService;
     }
 
 
     @GetMapping("/all")
-    public List<PizzaOptions> getAllPizzas()
-    {
+    public List<PizzaOptions> getAllPizzas() {
         return pizzaService.getAllPizzas();
     }
 }
