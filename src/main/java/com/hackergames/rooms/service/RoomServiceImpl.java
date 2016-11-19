@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -54,7 +55,13 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public void deletePizza(Long roomID, Pizza pizza) {
         Room room = roomRepository.findOne(roomID);
-        room.getPizzas().remove(pizza);
+        Iterator<Pizza> it = room.getPizzas().iterator();
+        while (it.hasNext()) {
+            if (it.next().equals(pizza)) {
+                it.remove();
+                break;
+            }
+        }
         roomRepository.save(room);
     }
 
