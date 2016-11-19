@@ -1,5 +1,6 @@
 package com.hackergames.rooms.controller;
 
+import com.hackergames.pizzas.model.Pizza;
 import com.hackergames.rooms.model.Room;
 import com.hackergames.rooms.service.RoomServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,16 @@ public class RoomRestController {
     @GetMapping("/{roomID}")
     public Room getRoom(@PathVariable Long roomID) {
         return roomService.getRoom(roomID);
+    }
+
+    @PutMapping("/{roomID}/{pizza}")
+    public Pizza addPizza(@PathVariable Long roomID, @PathVariable Pizza pizza) {
+        roomService.addPizza(roomID, pizza);
+        return pizza;
+    }
+
+    @DeleteMapping("/{roomID}/{pizza}")
+    public void deletePizza(@PathVariable Long roomID, @PathVariable Pizza pizza) {
+        roomService.deletePizza(roomID, pizza);
     }
 }
