@@ -3,6 +3,10 @@ package com.hackergames.pizzas.model;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +15,13 @@ import java.util.List;
  * A pizza as configured by a user. For example, its size and price have been determined.
  * This class should be used when posting an order to the API.
  */
+@Entity
 public final class Pizza
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private final String productCode;
+
     private final String price;
     private final String sizeCode;
     private final List<String> additions;
