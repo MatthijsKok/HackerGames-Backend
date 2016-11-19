@@ -1,75 +1,54 @@
 package com.hackergames.pizzas.model;
 
+import com.hackergames.pizzas.services.FakePizzaService;
 import lombok.Getter;
-import org.json.JSONObject;
+import lombok.Setter;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class Pizza
-{
+@Entity
+public class Pizza implements Serializable {
+    private static final long serialVersionUID = 4792120082595242177L;
+
+    @Id
     @Getter
-    private String name;
+    @Setter
+    private String productCode;
     @Getter
-    private String description;
+    @Setter
+    private String price;
     @Getter
-    private String image;
+    @Setter
+    private String sizeCode;
     @Getter
-    private String pickupPrice;
-    @Getter
-    private String deliveryPrice;
-    @Getter
-    private String status;
-    @Getter
-    private String componentStatus;
-    @Getter
-    private String itemType;
-    @Getter
-    private String itemCode;
-    @Getter
-    private String subMenu;
-    @Getter
-    boolean hnhAble;
+    @Setter
+    private ArrayList<String> additions;
+
+    private static List<PizzaOptions> pos = (new FakePizzaService()).getAllPizzas();
 
 
-    /**
-     * Creates a new {@code Pizza} from a JSON string.
-     *
-     * @param jso     the JSON string
-     * @param subMenu the type of pizza
-     * @return a new {@code Pizza}
-     */
-    public static Pizza fromJson(final JSONObject jso, final String subMenu)
-    {
-        JSONObject price = jso.getJSONObject("Price");
-        JSONObject linkedItem = jso.getJSONObject("LinkedItem");
-
-        return new Pizza(
-                jso.getString("Name"),
-                jso.getString("Description"),
-                jso.getString("Image"),
-                price.getString("Pickup"),
-                price.getString("Delivered"),
-                jso.getString("Status"),
-                jso.getString("ComponentStatus"),
-                linkedItem.getString("ItemType"),
-                linkedItem.getString("ItemCode"),
-                subMenu,
-                jso.getBoolean("HalfnHalfEnabled")
-        );
+    public static Pizza fromName(String name, String size, ArrayList<String> additions) {
+        for (PizzaOptions po : pos) {
+            if (po.getName().equals(name)) {
+                return new Pizza(po.getItemCode(), po.getDeliveryPrice(), size, additions);
+            }
+        }
+        return null;
     }
 
-    public Pizza(String name, String description, String image, String pickupPrice, String deliveryPrice, String status,
-                 String componentStatus, String itemType, String itemCode, String subMenu, boolean hnhAble)
-    {
-        this.name = name;
-        this.description = description;
-        this.image = image;
-        this.pickupPrice = pickupPrice;
-        this.deliveryPrice = deliveryPrice;
-        this.status = status;
-        this.componentStatus = componentStatus;
-        this.itemType = itemType;
-        this.itemCode = itemCode;
-        this.subMenu = subMenu;
-        this.hnhAble = hnhAble;
+
+    public Pizza() {
+    }
+
+    public Pizza(String productCode, String price, String sizeCode, ArrayList<String> additions) {
+        this.productCode = productCode;
+        this.price = price;
+        this.sizeCode = sizeCode;
+        this.additions = additions;
     }
 }
