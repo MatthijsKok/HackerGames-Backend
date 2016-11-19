@@ -21,7 +21,7 @@ public class PizzaRestController
 
 
     @Autowired
-    public PizzaRestController(final FakePizzaService pizzaService)
+    public PizzaRestController(FakePizzaService pizzaService)
     {
         this.pizzaService = pizzaService;
     }
