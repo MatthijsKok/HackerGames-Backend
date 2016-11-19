@@ -1,4 +1,4 @@
-package com.hackergames.api;
+package com.hackergames.pizzas.model;
 
 
 public final class Order
