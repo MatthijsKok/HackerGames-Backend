@@ -45,7 +45,7 @@ public class RoomRestController {
 
     @PostMapping("/room/{roomID}/pizza")
     public ResponseEntity<String> addPizza(@PathVariable Long roomID, @RequestParam String name,
-                                           @RequestParam String size, @RequestParam ArrayList<String> additions) {
+                                           @RequestParam String size, @RequestParam(required = false, defaultValue = "") ArrayList<String> additions) {
         Pizza pizza = Pizza.fromName(name, size, additions);
         if (pizza == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
