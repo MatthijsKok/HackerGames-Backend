@@ -1,6 +1,5 @@
 package com.hackergames.pizzas.services;
 
-import com.hackergames.pizzas.model.Pizza;
 import com.hackergames.pizzas.model.PizzaOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 /**
