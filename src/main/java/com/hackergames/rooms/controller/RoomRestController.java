@@ -24,6 +24,11 @@ public class RoomRestController {
         return roomService.createNewRoom();
     }
 
+    @DeleteMapping("/all")
+    public void deleteAllRooms() {
+        roomService.deleteAllRooms();
+    }
+
     @DeleteMapping("/{roomID}")
     public void deleteRoom(@PathVariable Long roomID) {
         roomService.deleteRoom(roomID);
